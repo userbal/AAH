@@ -1,3 +1,67 @@
+
+
 body {
+  margin: 0;
+  padding: 0;
   font-family: sans-serif;
+  color: white;
+  background: black;
+
 }
+
+
+#hero{
+    width: auto;
+    display: block;
+    max-width: 100%;
+}
+.input{
+    border: 2px solid white;
+    background: rgba(188, 188, 188, 0.5);
+    margin-bottom: .5em;
+    padding: .5em;
+    width: auto;
+    //color: white;
+    font-size: 1em;
+}
+
+#theme{
+    margin-bottom: 5px;
+}
+
+button{
+    user-select: none;
+    margin-bottom: 3px;
+    border: 2px solid white;
+    background: rgba(188, 188, 188, 0.5);
+    color: white;
+    font-size: 1em;
+}
+
+input::placeholder {
+    color: white;
+}
+
+
+
+#AddAthlete{
+    width: 15%;
+    padding: .1em .5em .1em .5em;
+    //background-color: rgba(188, 188, 188, 0.3);
+    font-size: 1.5em;
+}
+
+
+#ExistingList{
+    padding: 1em;
+    font-size: .75em;
+    font-size: 2em;
+}
+
+li{
+   list-style-type: none;
+   font-size: 14pt;
+}
+ul{
+   column-count: 6;
+   }

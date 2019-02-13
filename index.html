@@ -2,26 +2,31 @@
 <html>
   <head>
     <link rel="stylesheet" href="style.css">
-    <title>Hello, JS.</title>
+    <title>Add Athlete</title>
   </head>
   <body>
-    <h1>Let's Eat</h1>
-    <h2>Lunch Suggestions</h2>
-    <ol id="suggestions">
 
-    </ol>
-    <div>
-      Name:
-      <input type="text" id="name">
+        
+    <div id="hero">
+        <button id="theme" >Light Mode</button>
+        <img src="hero.jpg" alt="athlete" id="hero">
+    </div> 
+    <div id="AddAthlete">
+        <h1>Add Athlete</h1>
+        <div class="name">
+            <input type="text" id="first" class="input" placeholder="First Name">
+        </div>
+        <div class="name">
+            <input type="text" id="last" class="input" placeholder="Last Name">
+        </div>
+            <button id="button" >Create</button>
     </div>
-    <div>
-      Venue:
-      <input type="text" id="lunch-venue">
-    </div>
-    <button id="the-button">Vote</button>
-    <ul id="the-list">
 
-    </ul>
-    <script src="app.js"></script>
+        <div id="ExistingList">
+            Existing Athlete ID's
+            <ul id="idList"></ul>
+        </div>
+        <script src="app.js"></script>
+    </div>
   </body>
 </html>
