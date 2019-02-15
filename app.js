@@ -1,7 +1,6 @@
 var First = document.querySelector("#first");
 var Last = document.querySelector("#last");
 var body = document.querySelector("body");
-var inputcolor = document.querySelector("input::placeholder")
 
 var theme = document.querySelector("#theme");
 theme.onclick = function () {
@@ -10,7 +9,6 @@ theme.onclick = function () {
     body.style.color = "white"
     theme.innerHTML = "Light Mode"
     button.style.color = "white"
-    inputcolor.style.color = "white"
     
     }
     else{
@@ -19,7 +17,6 @@ theme.onclick = function () {
     body.style.color = "black"
     console.log("theme");
     theme.innerHTML = "Dark Mode"
-    inputcolor.style.color = "black"
     }
 };
 

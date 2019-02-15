@@ -37,6 +37,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_response(404)
             self.end_headers()
+            self.wfile.write(bytes(json.dumps("not found"), "utf-8"))
         return
 
     def do_POST(self):
@@ -56,6 +57,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         else:
             self.send_response(404)
             self.end_headers()
+            self.wfile.write(bytes(json.dumps("not found"), "utf-8"))
 
         return
 
