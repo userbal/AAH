@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
 import json
+from athletes import AthleteDB
 
 class MyRequestHandler(BaseHTTPRequestHandler):
 
@@ -15,19 +16,6 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         athletes = db.getAllAthletes()
         self.wfile.write(bytes(json.dumps(athletes), "utf-8"))
 
-    def handleAthletesRetrieve(self, id):
-        db = AthletesDB()
-        athlete = db.getAthlete(id)
-
-        if athlete == None:
-            self.handleNotFound()
-        else:
-            self.send_response(200)
-            self.send_header("Content-type", "application/json")
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
-            self.wfile.write(bytes(json.dumps(athlete), "utf-8"))
-
     def handleAthletesCreate(self):
         length = self.headers["Content-length"]
         body = self.rfile.read(int(length)).decode("utf-8")
@@ -39,12 +27,25 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         name = parsed_body["name"][0]
         cuisine = parsed_body["cuisine"][0]
         # send these values to the DB!
-        db = AthleteDB()
+        db = AthletesDB()
         db.createAthlete(name)
 
         self.send_response(201)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
+
+    def handleAthletesRetrieve(self, id):
+        db = AthleteDB()
+        athlete = db.getAthletes(id)
+
+        if athlete == None:
+            self.handleNotFound()
+        else:
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(bytes(json.dumps(Athlete), "utf-8"))
 
     def handleNotFound(self):
         self.send_response(404)
@@ -53,6 +54,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(bytes("Not found", "utf-8"))
 
     def do_GET(self):
+        # parse the path to find the collection and identifier
         parts = self.path.split('/')[1:]
         collection = parts[0]
         if len(parts) > 1:
@@ -62,17 +64,24 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
         if collection == "Athletes":
             if id == None:
-                self.handleRestaurantsList()
+                self.handleAthletesList()
             else:
-                self.handleRestaurantsRetrieve(id)
+                self.handleAthletesRetrieve(id)
         else:
             self.handleNotFound()
+
 
     def do_POST(self):
         if self.path == "/Athletes":
             self.handleAthletesCreate()
         else:
             self.handleNotFound()
+
+
+    #def do_DELETE(self):
+
+    #def do_PUT(self):
+
 
 def run():
     listen = ("127.0.0.1", 8080)
