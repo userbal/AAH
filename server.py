@@ -2,64 +2,77 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs
 import json
 
-
-def readAthletes(x):
-    athleteList = []
-    f = open(x, "r")
-    for line in f:
-        line = line.strip()
-        athleteList.append(line)
-    f.close()
-    return athleteList
-
-def writeAthletes(listx, x):
-    athleteString = ""
-    f = open(x, "w")
-    for ID in listx:
-        athleteString += ID + "\n"
-    f.write(athleteString)
-    f.close()
-
-Athletes = readAthletes("athletes.txt")
-
 class MyRequestHandler(BaseHTTPRequestHandler):
 
-    def do_GET(self):
-        if self.path == "/Athletes":
+    def handleAthletesList(self):
+        self.send_response(200)
+        # all headers go here:
+        self.send_header("Content-type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
+        db = AthletesDB()
+        athletes = db.getAllAthletes()
+        self.wfile.write(bytes(json.dumps(athletes), "utf-8"))
+
+    def handleAthletesRetrieve(self, id):
+        db = AthletesDB()
+        athlete = db.getAthlete(id)
+
+        if athlete == None:
+            self.handleNotFound()
+        else:
             self.send_response(200)
-            # all headers go here:
             self.send_header("Content-type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
-            #add stuff to read the list file
-            Athletes = readAthletes("athletes.txt")
-            self.wfile.write(bytes(json.dumps(Athletes), "utf-8"))
+            self.wfile.write(bytes(json.dumps(athlete), "utf-8"))
+
+    def handleAthletesCreate(self):
+        length = self.headers["Content-length"]
+        body = self.rfile.read(int(length)).decode("utf-8")
+        print("the text body:", body)
+        parsed_body = parse_qs(body)
+        print("the parsed body:", parsed_body)
+
+        # save the athlete!
+        name = parsed_body["name"][0]
+        cuisine = parsed_body["cuisine"][0]
+        # send these values to the DB!
+        db = AthleteDB()
+        db.createAthlete(name)
+
+        self.send_response(201)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
+    def handleNotFound(self):
+        self.send_response(404)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(bytes("Not found", "utf-8"))
+
+    def do_GET(self):
+        parts = self.path.split('/')[1:]
+        collection = parts[0]
+        if len(parts) > 1:
+            id = parts[1]
         else:
-            self.send_response(404)
-            self.end_headers()
-            self.wfile.write(bytes(json.dumps("not found"), "utf-8"))
-        return
+            id = None
+
+        if collection == "Athletes":
+            if id == None:
+                self.handleRestaurantsList()
+            else:
+                self.handleRestaurantsRetrieve(id)
+        else:
+            self.handleNotFound()
 
     def do_POST(self):
         if self.path == "/Athletes":
-            length = self.headers["Content-length"]
-            body = self.rfile.read(int(length)).decode("utf-8")
-            print("the text body:", body)
-            parsed_body = parse_qs(body)
-            print("the parsed body:", parsed_body)
-
-            Athletes.append(parsed_body["name"][0])
-            writeAthletes(Athletes, "athletes.txt")
-
-            self.send_response(201)
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.end_headers()
+            self.handleAthletesCreate()
         else:
-            self.send_response(404)
-            self.end_headers()
-            self.wfile.write(bytes(json.dumps("not found"), "utf-8"))
-
-        return
+            self.handleNotFound()
 
 def run():
     listen = ("127.0.0.1", 8080)
