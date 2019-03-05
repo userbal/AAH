@@ -4,8 +4,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  color: white;
-  background: black;
+  color: black;
+  background: white;
 
 }
 
@@ -21,13 +21,9 @@ body {
     margin-bottom: .5em;
     padding: .5em;
     width: auto;
-    //color: white;
     font-size: 1em;
 }
 
-#theme{
-    margin-bottom: 5px;
-}
 
 button{
     user-select: none;
@@ -46,7 +42,7 @@ input::placeholder {
 
 #AddAthlete{
     width: 15%;
-    padding: .1em .5em .1em .5em;
+    padding: .1em .5em .1em 1em;
     //background-color: rgba(188, 188, 188, 0.3);
     font-size: 1.5em;
 }
@@ -58,10 +54,22 @@ input::placeholder {
     font-size: 2em;
 }
 
+#idList{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
 li{
    list-style-type: none;
    font-size: 14pt;
+   border: solid;
+   border-width: .5px;
+   padding: 10px;
+   margin: 10px;
+   margin-left: 0px;
 }
 ul{
-   column-count: 6;
-   }
+   column-count: 1;
+}
+
+

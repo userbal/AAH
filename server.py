@@ -12,7 +12,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
 
-        db = AthletesDB()
+        db = AthleteDB()
         athletes = db.getAllAthletes()
         self.wfile.write(bytes(json.dumps(athletes), "utf-8"))
 
@@ -25,9 +25,8 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
         # save the athlete!
         name = parsed_body["name"][0]
-        cuisine = parsed_body["cuisine"][0]
         # send these values to the DB!
-        db = AthletesDB()
+        db = AthleteDB()
         db.createAthlete(name)
 
         self.send_response(201)

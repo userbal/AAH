@@ -1,5 +1,3 @@
-var First = document.querySelector("#first");
-var Last = document.querySelector("#last");
 var body = document.querySelector("body");
 
 var theme = document.querySelector("#theme");
@@ -20,13 +18,8 @@ theme.onclick = function () {
     }
 };
 
-// let's make an event
-var theButton = document.querySelector("#button");
-theButton.onclick = function () {
-    console.log(First.value)
-    console.log(Last.value)
-    if (First != "" && Last != ""){
-  var data = "name=" + encodeURIComponent(First.value + Last.value);
+var createAthlete = function (name) {
+  var data = "name=" + encodeURIComponent(name);
 
   fetch("http://localhost:8080/Athletes", {
     method: 'POST',
@@ -35,30 +28,51 @@ theButton.onclick = function () {
       "Content-type": "application/x-www-form-urlencoded"
     }
   }).then(function (response) {
-    console.log("student saved.");
-    getStuff()
+    console.log("Athlete saved.");
+    // refresh data
+    getAthletes();
   });
-  }
 };
 
-function getStuff(){
-    fetch("http://localhost:8080/Athletes").then(function (response) {
-      response.json().then(function (data) {
-        // save all of the data into a global variable (to use later)
-        IDs = data;
+var deleteAthlete = function (id) {
+  fetch(`http://localhost:8080/Athletes/${id}`, {
+    method: 'DELETE'
+  }).then(function (response) {
+    console.log("Athlete deleted.");
+    // refresh data
+    getAthletes()
+  });
+};
 
-        // data is an array of string values
-        var idList = document.querySelector("#idList");
+var theButton = document.querySelector("#button");
+theButton.onclick = function () {
+    var name = first.value;
+    name += last.value;
+  createAthlete(name);
+};
 
-        // add the restaurants to the suggestions list
-          idList.innerHTML = "";
-          data.forEach(function (id) { // for restaurant in data
-          var newItem = document.createElement("li");
-          newItem.innerHTML = id;
-          newItem.className = "idList";
-          idList.appendChild(newItem);
-        });
+var getAthletes = function () {
+  idList.innerHTML = "";
+  fetch("http://localhost:8080/Athletes").then(function (response) {
+    response.json().then(function (data) {
+      // save all of the data into a global variable (to use later)
+      IDs = data;
+
+
+      // add the athletes to the list
+      data.forEach(function (athlete) { // for athletes in data
+        var newItem = document.createElement("li");
+
+        var nameDiv = document.createElement("div");
+        nameDiv.innerHTML = athlete.name;
+        nameDiv.className = "athlete-name";
+        newItem.appendChild(nameDiv);
+      
+        idList.appendChild(newItem);
       });
-    });
-}
-getStuff()
+   });
+});
+};
+
+// load data
+getAthletes()
