@@ -44,12 +44,24 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             self.send_header("Content-type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.end_headers()
-            self.wfile.write(bytes(json.dumps(Athlete), "utf-8"))
+            self.wfile.write(bytes(json.dumps(athlete), "utf-8"))
+
+    def handleAthletesSearch(self, id):
+        db = AthleteDB()
+        athlete = db.searchAthletes(id)
+
+        if athlete == None:
+            self.handleNotFound()
+        else:
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(bytes(json.dumps(athlete), "utf-8"))
 
     def handleAthletesDelete(self, id):
         db = AthleteDB()
-        db.createAthlete(id)
-
+        db.deleteAthlete(id)
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
@@ -75,6 +87,8 @@ class MyRequestHandler(BaseHTTPRequestHandler):
                 self.handleAthletesList()
             else:
                 self.handleAthletesRetrieve(id)
+        elif collection == "Search":
+            self.handleAthletesSearch(id)
         else:
             self.handleNotFound()
 
@@ -87,17 +101,21 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
 
     def do_DELETE(self):
-        if self.path == "/Athletes":
         # parse the path to find the collection and identifier
-            parts = self.path.split('/')[1:]
-            if len(parts) > 2:
-                id = parts[2]
+        parts = self.path.split('/')[1:]
+        collection = parts[0]
+        if len(parts) > 1:
+            id = parts[1]
+        else:
+            id = None
+
+        if collection == "Athletes":
+            if id != None:
                 self.handleAthletesDelete(id)
             else:
                 self.handleNotFound()
         else:
             self.handleNotFound()
-
 
 
 def run():

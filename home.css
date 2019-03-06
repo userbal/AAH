@@ -1,0 +1,84 @@
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  color: black;
+  background: white;
+
+}
+
+
+#hero{
+    width: auto;
+    display: block;
+    max-width: 100%;
+}
+.input{
+    border: 2px solid white;
+    background: rgba(188, 188, 188, 0.5);
+    margin-bottom: .5em;
+    padding: .5em;
+    width: auto;
+    font-size: 1em;
+    border: solid;
+    border-width: .5px;
+}
+
+
+button{
+    background: rgba(188, 188, 188, 0.5);
+    font-size: 1em;
+    border: .5px solid;
+}
+
+input::placeholder {
+}
+
+
+
+#AddAthlete{
+    width: 15%;
+    padding: .1em .5em .1em 1em;
+    //background-color: rgba(188, 188, 188, 0.3);
+    font-size: 1.5em;
+}
+
+
+#ExistingList{
+    padding: 1em;
+    font-size: .75em;
+    font-size: 2em;
+}
+
+#idList{
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+li{
+   list-style-type: none;
+   font-size: 14pt;
+   border: solid;
+   width: 50%;
+   border-width: .5px;
+   padding: 10px;
+   margin: 10px;
+   margin-left: 0px;
+}
+ul{
+   column-count: 1;
+}
+
+.listItem{
+    display: inline-flex;
+}
+.listButton{
+    display: inline-flex;
+    float: right;
+}
+
+#wrapper{
+
+}

@@ -32,6 +32,11 @@ class AthleteDB:
         self.cursor.execute(sql, [id]) # data must be a list
         return self.cursor.fetchone()
 
+    def searchAthletes(self, id):
+        sql = "SELECT * FROM athletes WHERE name like ?"
+        self.cursor.execute(sql, ['%' +id+ '%']) # data must be a list
+        return self.cursor.fetchall()
+
     def deleteAthlete(self, id):
         sql = "DELETE FROM athletes WHERE id = ?"
         self.cursor.execute(sql, [id]) # data must be a list

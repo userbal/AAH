@@ -1,40 +1,13 @@
-
-var createAthlete = function (name) {
-  var data = "name=" + encodeURIComponent(name);
-
-  fetch("http://localhost:8080/Athletes", {
-    method: 'POST',
-    body: data,
-    headers: {
-      "Content-type": "application/x-www-form-urlencoded"
-    }
-  }).then(function (response) {
-    console.log("Athlete saved.");
-    // refresh data
-    getAthletes();
-  });
-};
-
-var deleteAthlete = function (id) {
-  fetch(`http://localhost:8080/Athletes/${id}`, {
-    method: 'DELETE'
-  }).then(function (response) {
-    console.log("Athlete deleted.");
-    // refresh data
-    getAthletes()
-  });
-};
-
 var theButton = document.querySelector("#button");
 theButton.onclick = function () {
-    var name = first.value;
-    name += last.value;
-  createAthlete(name);
+    var search = document.querySelector("#search");
+    search = search.value;
+  getAthletesSearch(search);
 };
 
-var getAthletes = function () {
+var getAthletesSearch = function (search) {
   idList.innerHTML = "";
-  fetch("http://localhost:8080/Athletes").then(function (response) {
+  fetch(`http://localhost:8080/Search/${search}`).then(function (response) {
     response.json().then(function (data) {
       // save all of the data into a global variable (to use later)
       IDs = data;
@@ -65,6 +38,3 @@ var getAthletes = function () {
    });
 });
 };
-
-// load data
-getAthletes()
