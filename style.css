@@ -1,14 +1,36 @@
 
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: 5px;
+  padding: 3px;
   font-family: sans-serif;
   color: black;
   background: white;
 
 }
 
+#navbar{
+}
+
+h1{
+    margin: 0px;
+}
+
+a{
+color: black;
+}
+
+
+.navElement{
+
+    background: rgba(188, 188, 188, 0.5);
+
+    margin: 3px 0px 3px 5px;
+    padding: 7px;
+    border: .5px solid;
+    cursor: pointer;
+    display: inline-block;
+}
 
 #hero{
     width: auto;
