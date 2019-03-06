@@ -46,6 +46,15 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes(json.dumps(Athlete), "utf-8"))
 
+    def handleAthletesDelete(self, id):
+        db = AthleteDB()
+        db.createAthlete(id)
+
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
+
     def handleNotFound(self):
         self.send_response(404)
         self.send_header("Content-type", "text/plain")
@@ -77,9 +86,18 @@ class MyRequestHandler(BaseHTTPRequestHandler):
             self.handleNotFound()
 
 
-    #def do_DELETE(self):
+    def do_DELETE(self):
+        if self.path == "/Athletes":
+        # parse the path to find the collection and identifier
+            parts = self.path.split('/')[1:]
+            if len(parts) > 2:
+                id = parts[2]
+                self.handleAthletesDelete(id)
+            else:
+                self.handleNotFound()
+        else:
+            self.handleNotFound()
 
-    #def do_PUT(self):
 
 
 def run():

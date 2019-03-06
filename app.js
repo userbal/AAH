@@ -1,22 +1,3 @@
-var body = document.querySelector("body");
-
-var theme = document.querySelector("#theme");
-theme.onclick = function () {
-    if (theme.innerHTML == "Dark Mode"){
-    body.style.background = "black"
-    body.style.color = "white"
-    theme.innerHTML = "Light Mode"
-    button.style.color = "white"
-    
-    }
-    else{
-    button.style.color = "black"
-    body.style.background = "white"
-    body.style.color = "black"
-    console.log("theme");
-    theme.innerHTML = "Dark Mode"
-    }
-};
 
 var createAthlete = function (name) {
   var data = "name=" + encodeURIComponent(name);
@@ -35,6 +16,7 @@ var createAthlete = function (name) {
 };
 
 var deleteAthlete = function (id) {
+  console.log("started delete");
   fetch(`http://localhost:8080/Athletes/${id}`, {
     method: 'DELETE'
   }).then(function (response) {
@@ -65,9 +47,20 @@ var getAthletes = function () {
 
         var nameDiv = document.createElement("div");
         nameDiv.innerHTML = athlete.name;
-        nameDiv.className = "athlete-name";
+        nameDiv.className = "listItem";
         newItem.appendChild(nameDiv);
       
+        var deleteButton = document.createElement("button");
+        deleteButton.className = "listButton";
+        deleteButton.innerHTML = "Delete";
+        deleteButton.onclick = function () {
+          var proceed = confirm(`Do you want to delete ${athlete.name}?`);
+          if (proceed) {
+            deleteAthlete(athlete.id);
+          }
+        };
+        newItem.appendChild(deleteButton);
+          
         idList.appendChild(newItem);
       });
    });

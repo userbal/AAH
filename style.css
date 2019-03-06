@@ -22,20 +22,18 @@ body {
     padding: .5em;
     width: auto;
     font-size: 1em;
+    border: solid;
+    border-width: .5px;
 }
 
 
 button{
-    user-select: none;
-    margin-bottom: 3px;
-    border: 2px solid white;
     background: rgba(188, 188, 188, 0.5);
-    color: white;
     font-size: 1em;
+    border: .5px solid;
 }
 
 input::placeholder {
-    color: white;
 }
 
 
@@ -63,6 +61,7 @@ li{
    list-style-type: none;
    font-size: 14pt;
    border: solid;
+   width: 50%;
    border-width: .5px;
    padding: 10px;
    margin: 10px;
@@ -72,4 +71,14 @@ ul{
    column-count: 1;
 }
 
+.listItem{
+    display: inline-flex;
+}
+.listButton{
+    display: inline-flex;
+    float: right;
+}
 
+#wrapper{
+
+}
