@@ -33,6 +33,23 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
 
+    def handleAthletesUpdate(self, id, name):
+        length = self.headers["Content-length"]
+        body = self.rfile.read(int(length)).decode("utf-8")
+        print("the text body:", body)
+        parsed_body = parse_qs(body)
+        print("the parsed body:", parsed_body)
+
+        # save the athlete!
+        name = parsed_body["name"][0]
+        # send these values to the DB!
+        db = AthleteDB()
+        db.updateAthlete(id, name)
+
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+
     def handleAthletesRetrieve(self, id):
         db = AthleteDB()
         athlete = db.getAthletes(id)
@@ -117,6 +134,29 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         else:
             self.handleNotFound()
 
+    def do_PUT(self):
+        # parse the path to find the collection and identifier
+        parts = self.path.split('/')[1:]
+        collection = parts[0]
+        if len(parts) > 1:
+            id = parts[1]
+        else:
+            id = None
+
+        if collection == "Athletes":
+            if id != None:
+                self.handleAthletesUpdate(id)
+            else:
+                self.handleNotFound()
+        else:
+            self.handleNotFound()
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-type")
+        self.end_headers()
 
 def run():
     listen = ("127.0.0.1", 8080)

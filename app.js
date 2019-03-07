@@ -25,6 +25,15 @@ var deleteAthlete = function (id) {
   });
 };
 
+var updateAthlete = function (id) {
+  fetch(`http://localhost:8080/Athletes/${id}`, {
+    method: 'PUT'
+  }).then(function (response) {
+    console.log("Athlete Updated.");
+    // refresh data
+    getAthletes()
+  });
+
 var theButton = document.querySelector("#button");
 theButton.onclick = function () {
     var name = first.value;
@@ -48,6 +57,14 @@ var getAthletes = function () {
         nameDiv.innerHTML = athlete.name;
         nameDiv.className = "listItem";
         newItem.appendChild(nameDiv);
+
+        var updateButton = document.createElement("button");
+        updateButton.className = "listButton";
+        updateButton.innerHTML = "Edit";
+        updateButton.onclick = function () {
+        updateAthlete(athlete.id, name);
+        };
+        newItem.appendChild(updateButton);
       
         var deleteButton = document.createElement("button");
         deleteButton.className = "listButton";

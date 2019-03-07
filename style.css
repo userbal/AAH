@@ -95,6 +95,7 @@ ul{
 
 .listItem{
     display: inline-flex;
+    margin-left: 3px;
 }
 .listButton{
     display: inline-flex;
