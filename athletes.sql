@@ -1,6 +1,11 @@
 CREATE TABLE athletes (
     id              INTEGER PRIMARY KEY,
-    name            TEXT NOT NULL,
+    firstname       TEXT NOT NULL,
+    lastname        TEXT NOT NULL,
+    phone           Text Not NULL,
+    creationDate    date,
+    entries         INTEGER,
 
-    UNIQUE(name)
+    unique(phone)
+
 );

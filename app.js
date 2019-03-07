@@ -1,6 +1,8 @@
 
-var createAthlete = function (name) {
-  var data = "name=" + encodeURIComponent(name);
+var createAthlete = function (firstname, lastname, phone) {
+  var data = "firstname=" + encodeURIComponent(firstname);
+  data += "&lastname=" + encodeURIComponent(lastname);
+  data += "&phone=" + encodeURIComponent(phone);
 
   fetch("http://localhost:8080/Athletes", {
     method: 'POST',
@@ -11,8 +13,8 @@ var createAthlete = function (name) {
   }).then(function (response) {
     console.log("Athlete saved.");
     // refresh data
-    getAthletes();
   });
+  getAthletes();
 };
 
 var deleteAthlete = function (id) {
@@ -25,20 +27,30 @@ var deleteAthlete = function (id) {
   });
 };
 
-var updateAthlete = function (id) {
-  fetch(`http://localhost:8080/Athletes/${id}`, {
-    method: 'PUT'
+var updateAthlete = function (id, firstname, lastname, phone) {
+  var data = "firstname=" + encodeURIComponent(firstname);
+  var data = "lastname=" + encodeURIComponent(lastname);
+  var data = "phone=" + encodeURIComponent(phone);
+
+  fetch("http://localhost:8080/Athletes", {
+    method: 'PUT',
+    body: data,
+    headers: {
+      "Content-type": "application/x-www-form-urlencoded"
+    }
   }).then(function (response) {
-    console.log("Athlete Updated.");
+    console.log("Athlete saved.");
     // refresh data
-    getAthletes()
+    getAthletes();
   });
+};
 
 var theButton = document.querySelector("#button");
 theButton.onclick = function () {
-    var name = first.value;
-    name += last.value;
-  createAthlete(name);
+    var firstname = first.value;
+    var lastname = last.value;
+    var phonenumber = phone.value;
+  createAthlete(firstname, lastname, phonenumber);
 };
 
 var getAthletes = function () {
@@ -51,21 +63,31 @@ var getAthletes = function () {
 
       // add the athletes to the list
       data.forEach(function (athlete) { // for athletes in data
-        var newItem = document.createElement("li");
+        var AthleteList = document.createElement("li");
+        AthleteList.className = "AthleteList";
+        var infoBox = document.createElement("div");
+        infoBox.className = "infoBox";
 
         var nameDiv = document.createElement("div");
-        nameDiv.innerHTML = athlete.name;
+        nameDiv.innerHTML = athlete.firstname;
         nameDiv.className = "listItem";
-        newItem.appendChild(nameDiv);
+        infoBox.appendChild(nameDiv);
 
-        var updateButton = document.createElement("button");
-        updateButton.className = "listButton";
-        updateButton.innerHTML = "Edit";
-        updateButton.onclick = function () {
-        updateAthlete(athlete.id, name);
-        };
-        newItem.appendChild(updateButton);
-      
+        var nameDiv = document.createElement("div");
+        nameDiv.innerHTML = athlete.lastname;
+        nameDiv.className = "listItem";
+        infoBox.appendChild(nameDiv);
+
+        var nameDiv = document.createElement("div");
+        nameDiv.innerHTML = athlete.phone;
+        nameDiv.className = "listItem";
+        infoBox.appendChild(nameDiv);
+
+        AthleteList.appendChild(infoBox);
+
+        var buttonsBox = document.createElement("div");
+        buttonsBox.className = "buttonsBox";
+
         var deleteButton = document.createElement("button");
         deleteButton.className = "listButton";
         deleteButton.innerHTML = "Delete";
@@ -75,9 +97,20 @@ var getAthletes = function () {
             deleteAthlete(athlete.id);
           }
         };
-        newItem.appendChild(deleteButton);
+        buttonsBox.appendChild(deleteButton);
+
+        var updateButton = document.createElement("button");
+        updateButton.className = "listButton";
+        updateButton.innerHTML = "Edit";
+        updateButton.onclick = function () {
+        updateAthlete(athlete.id, firstname, lastname, phone);
+        };
+        buttonsBox.appendChild(updateButton);
+
+        AthleteList.appendChild(buttonsBox);
+      
           
-        idList.appendChild(newItem);
+        idList.appendChild(AthleteList);
       });
    });
 });

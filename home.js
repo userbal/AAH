@@ -18,21 +18,20 @@ var getAthletesSearch = function (search) {
         var newItem = document.createElement("li");
 
         var nameDiv = document.createElement("div");
-        nameDiv.innerHTML = athlete.name;
+        nameDiv.innerHTML = athlete.firstname;
         nameDiv.className = "listItem";
         newItem.appendChild(nameDiv);
       
-        var deleteButton = document.createElement("button");
-        deleteButton.className = "listButton";
-        deleteButton.innerHTML = "Delete";
-        deleteButton.onclick = function () {
-          var proceed = confirm(`Do you want to delete ${athlete.name}?`);
-          if (proceed) {
-            deleteAthlete(athlete.id);
-          }
-        };
-        newItem.appendChild(deleteButton);
+        var nameDiv = document.createElement("div");
+        nameDiv.innerHTML = athlete.lastname;
+        nameDiv.className = "listItem";
+        newItem.appendChild(nameDiv);
           
+        var nameDiv = document.createElement("div");
+        nameDiv.innerHTML = athlete.phone;
+        nameDiv.className = "listItem";
+        newItem.appendChild(nameDiv);
+
         idList.appendChild(newItem);
       });
    });

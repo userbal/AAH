@@ -17,14 +17,14 @@ class AthleteDB:
         # disconnect!
         self.connection.close()
 
-    def createAthlete(self, name ):
-        sql = "INSERT INTO athletes (name) VALUES (?)"
-        self.cursor.execute(sql, [name])
+    def createAthlete(self, firstname, lastname, phone ):
+        sql = "INSERT INTO athletes (firstname, lastname, phone, creationDate, entries) VALUES (?,?,?,?,?)"
+        self.cursor.execute(sql, [firstname, lastname, phone, "\'now\'", 5])
         self.connection.commit()
         return
 
     def getAllAthletes(self):
-        self.cursor.execute("SELECT * FROM athletes ORDER BY name asc")
+        self.cursor.execute("SELECT * FROM athletes ORDER BY firstname asc")
         return self.cursor.fetchall()
 
     def getAthlete(self, id):
@@ -32,9 +32,9 @@ class AthleteDB:
         self.cursor.execute(sql, [id]) # data must be a list
         return self.cursor.fetchone()
 
-    def searchAthletes(self, id):
-        sql = "SELECT * FROM athletes WHERE name like ?"
-        self.cursor.execute(sql, ['%' +id+ '%']) # data must be a list
+    def searchAthletes(self, firstname):
+        sql = "SELECT * FROM athletes WHERE firstname like ?"
+        self.cursor.execute(sql, ['%' +firstname+ '%']) # data must be a list
         return self.cursor.fetchall()
 
     def deleteAthlete(self, id):
@@ -43,9 +43,9 @@ class AthleteDB:
         self.connection.commit()
         return
 
-    def updateAthlete(self, id, name):
-        sql = "UPDATE athletes SET name = ? WHERE id = ?"
-        self.cursor.execute(sql, [name, id]) # data must be a list
+    def updateAthlete(self, id, firstname, lastname, phone):
+        sql = "UPDATE athletes SET firstname = ?, lastname = ?, phone, creationDate = ?, entries = ?  WHERE id = ?"
+        self.cursor.execute(sql, [firstname, lastname, phone, creationDate, entries, id]) # data must be a list
         self.connection.commit()
         return
 

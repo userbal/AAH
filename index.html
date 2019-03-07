@@ -11,30 +11,41 @@
     <div id="hero">
         <img src="hero.jpg" alt="athlete" id="hero">
     </div> 
+
       <div id="navbar">
           <a href="home.html">
           <div class="navElement"> Search Athletes </div>
           </a>
-          <a href="home.html">
+          <a href="index.html">
           <div class="navElement"> Add Athletes </div>
           </a>
       </div>
+
     <div id=wrapper>
         <div id="AddAthlete">
             <h1>Add Athlete</h1>
+
             <div class="name">
                 <input type="text" id="first" class="input" placeholder="First Name">
             </div>
+
             <div class="name">
                 <input type="text" id="last" class="input" placeholder="Last Name">
             </div>
+
+            <div class="name">
+                <input type="text" id="phone" class="input" placeholder="Phone">
+            </div>
+
+            <div class="name">
                 <button id="button" >Create</button>
            </div>
 
             <div id="ExistingList">
-                Existing Athlete ID's
+                Existing Athletes
                 <ul id="idList"></ul>
             </div>
+
             <script src="app.js"></script>
         </div>
     </div>

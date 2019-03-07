@@ -24,10 +24,12 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         print("the parsed body:", parsed_body)
 
         # save the athlete!
-        name = parsed_body["name"][0]
+        firstname = parsed_body["firstname"][0]
+        lastname = parsed_body["lastname"][0]
+        phone = parsed_body["phone"][0]
         # send these values to the DB!
         db = AthleteDB()
-        db.createAthlete(name)
+        db.createAthlete(firstname, lastname, phone)
 
         self.send_response(201)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -41,10 +43,12 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         print("the parsed body:", parsed_body)
 
         # save the athlete!
-        name = parsed_body["name"][0]
+        firstname = parsed_body["firstname"][0]
+        lastname = parsed_body["lastname"][0]
+        phone = parsed_body["phone"][0]
         # send these values to the DB!
         db = AthleteDB()
-        db.updateAthlete(id, name)
+        db.updateAthlete(id, firstname, lastname, phone)
 
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -145,7 +149,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
         if collection == "Athletes":
             if id != None:
-                self.handleAthletesUpdate(id)
+                self.handleAthletesUpdate(id, )
             else:
                 self.handleNotFound()
         else:
