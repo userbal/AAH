@@ -57,10 +57,10 @@ theButton.onclick = function () {
 
 
 var getAthletes = function () {
-  AthleteList.innerHTML = "";
   fetch("http://localhost:8080/Athletes").then(function (response) {
     response.json().then(function (data) {
 
+      AthleteList.innerHTML = "";
 
       data.forEach(function (athlete) { 
         // parent child structure: 
