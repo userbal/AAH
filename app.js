@@ -27,25 +27,27 @@ var deleteAthlete = function (id) {
   });
 };
 
-var updateAthlete = function (id, firstname, lastname, phone) {
+var updateAthlete = function (id, firstname, lastname, phone, creationDate, entries) {
   var data = "firstname=" + encodeURIComponent(firstname);
-  var data = "lastname=" + encodeURIComponent(lastname);
-  var data = "phone=" + encodeURIComponent(phone);
+  data += "&lastname=" + encodeURIComponent(lastname);
+  data += "&phone=" + encodeURIComponent(phone);
+  data += "&creationDate=" + encodeURIComponent(phone);
+  data += "&entries=" + encodeURIComponent(phone);
 
-  fetch("http://localhost:8080/Athletes", {
+  fetch(`http://localhost:8080/Athletes/${id}`, {
     method: 'PUT',
     body: data,
     headers: {
       "Content-type": "application/x-www-form-urlencoded"
     }
   }).then(function (response) {
-    console.log("Athlete saved.");
+    console.log("Athlete Updated.");
     // refresh data
     getAthletes();
   });
 };
 
-var theButton = document.querySelector("#button");
+var theButton = document.querySelector("#createAthleteButton");
 theButton.onclick = function () {
     var firstname = first.value;
     var lastname = last.value;
@@ -53,43 +55,53 @@ theButton.onclick = function () {
   createAthlete(firstname, lastname, phonenumber);
 };
 
+
 var getAthletes = function () {
-  idList.innerHTML = "";
+  AthleteList.innerHTML = "";
   fetch("http://localhost:8080/Athletes").then(function (response) {
     response.json().then(function (data) {
-      // save all of the data into a global variable (to use later)
-      IDs = data;
 
 
-      // add the athletes to the list
-      data.forEach(function (athlete) { // for athletes in data
-        var AthleteList = document.createElement("li");
-        AthleteList.className = "AthleteList";
+      data.forEach(function (athlete) { 
+        // parent child structure: 
+        // AthleteList -> AthleteListEntry -> infoBox -> infoBoxItem 
+        //                                 -> buttonsBox -> buttonsBoxItem
+        var AthleteListEntry = document.createElement("li");
+        AthleteListEntry.className = "AthleteListEntry";
         var infoBox = document.createElement("div");
         infoBox.className = "infoBox";
-
-        var nameDiv = document.createElement("div");
-        nameDiv.innerHTML = athlete.firstname;
-        nameDiv.className = "listItem";
-        infoBox.appendChild(nameDiv);
-
-        var nameDiv = document.createElement("div");
-        nameDiv.innerHTML = athlete.lastname;
-        nameDiv.className = "listItem";
-        infoBox.appendChild(nameDiv);
-
-        var nameDiv = document.createElement("div");
-        nameDiv.innerHTML = athlete.phone;
-        nameDiv.className = "listItem";
-        infoBox.appendChild(nameDiv);
-
-        AthleteList.appendChild(infoBox);
-
         var buttonsBox = document.createElement("div");
         buttonsBox.className = "buttonsBox";
 
+        //firstname
+        var firstname = document.createElement("div");
+        firstname.innerHTML = "FIRST: " + athlete.firstname;
+        firstname.className = "infoBoxItem";
+        infoBox.appendChild(firstname);
+
+        //lastname
+        var lastname = document.createElement("div");
+        lastname.innerHTML = "LAST: " + athlete.lastname;
+        lastname.className = "infoBoxItem";
+        infoBox.appendChild(lastname);
+
+        //phone
+        var phone = document.createElement("div");
+        phone.innerHTML = "PHONE: " + athlete.phone;
+        phone.className = "infoBoxItem";
+        infoBox.appendChild(phone);
+
+        //entries
+        var entries = document.createElement("div");
+        entries.innerHTML = "ENTRIES: " + athlete.entries;
+        entries.className = "infoBoxItem";
+        infoBox.appendChild(entries);
+
+        AthleteListEntry.appendChild(infoBox);
+
+
         var deleteButton = document.createElement("button");
-        deleteButton.className = "listButton";
+        deleteButton.className = "buttonsBoxItem";
         deleteButton.innerHTML = "Delete";
         deleteButton.onclick = function () {
           var proceed = confirm(`Do you want to delete ${athlete.name}?`);
@@ -100,21 +112,53 @@ var getAthletes = function () {
         buttonsBox.appendChild(deleteButton);
 
         var updateButton = document.createElement("button");
-        updateButton.className = "listButton";
+        updateButton.className = "buttonsBoxItem";
         updateButton.innerHTML = "Edit";
+
         updateButton.onclick = function () {
-        updateAthlete(athlete.id, firstname, lastname, phone);
-        };
+            //create
+            var editFirstname = document.createElement("input"); 
+            var editLastname = document.createElement("input"); 
+            var editPhone = document.createElement("input"); 
+            var editCreationDate = document.createElement("div"); 
+            var editEntries = document.createElement("div"); 
+            var updateBox = document.createElement("div"); 
+            //add class
+            editFirstname.className = "updateMembers";
+            editLastname.className = "updateMembers";
+            editPhone.className = "updateMembers";
+            editCreationDate.className = "updateMembers";
+            editEntries.className = "updateMembers";
+            updateBox.className = "updateBox";
+            //store values
+            updateButton.innerHTML = "Save"
+            editFirstname.value = athlete.firstname;
+            editLastname.value = athlete.lastname;
+            editPhone.value = athlete.phone;
+            editCreationDate.innerHTML = athlete.creationDate;
+            editEntries.innerHTML = athlete.entries;
+            //append
+            updateBox.appendChild(editFirstname);
+            updateBox.appendChild(editLastname);
+            updateBox.appendChild(editPhone);
+            updateBox.appendChild(editCreationDate);
+            updateBox.appendChild(editEntries);
+            AthleteListEntry.appendChild(updateBox);
+
+            updateButton.onclick = function () {
+                AthleteListEntry.removeChild(updateBox);
+                updateAthlete(athlete.id, editFirstname.value, editLastname.value, editPhone.value);
+                //updateButton.innerHTML = "Edit"
+            };
+      };
         buttonsBox.appendChild(updateButton);
 
-        AthleteList.appendChild(buttonsBox);
-      
-          
-        idList.appendChild(AthleteList);
-      });
+        AthleteListEntry.appendChild(buttonsBox);
+         
+        AthleteList.appendChild(AthleteListEntry);
    });
+});
 });
 };
 
-// load data
 getAthletes()

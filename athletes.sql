@@ -3,9 +3,7 @@ CREATE TABLE athletes (
     firstname       TEXT NOT NULL,
     lastname        TEXT NOT NULL,
     phone           Text Not NULL,
-    creationDate    date,
-    entries         INTEGER,
-
-    unique(phone)
+    creationDate    Text Not NULL,
+    entries         INTEGER
 
 );

@@ -35,7 +35,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
 
-    def handleAthletesUpdate(self, id, name):
+    def handleAthletesUpdate(self, id):
         length = self.headers["Content-length"]
         body = self.rfile.read(int(length)).decode("utf-8")
         print("the text body:", body)
@@ -46,9 +46,11 @@ class MyRequestHandler(BaseHTTPRequestHandler):
         firstname = parsed_body["firstname"][0]
         lastname = parsed_body["lastname"][0]
         phone = parsed_body["phone"][0]
+        creationDate = parsed_body["creationDate"][0]
+        entries = parsed_body["entries"][0]
         # send these values to the DB!
         db = AthleteDB()
-        db.updateAthlete(id, firstname, lastname, phone)
+        db.updateAthlete(id, firstname, lastname, phone, creationDate, entries)
 
         self.send_response(200)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -149,7 +151,7 @@ class MyRequestHandler(BaseHTTPRequestHandler):
 
         if collection == "Athletes":
             if id != None:
-                self.handleAthletesUpdate(id, )
+                self.handleAthletesUpdate(id)
             else:
                 self.handleNotFound()
         else:

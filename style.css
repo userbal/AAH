@@ -1,7 +1,7 @@
 
 
 body {
-  margin: 5px;
+  margin: 15px;
   padding: 3px;
   font-family: sans-serif;
   color: black;
@@ -21,7 +21,6 @@ a{
     text-decoration: none;
 }
 
-
 .navElement{
 
     background: rgba(188, 188, 188, 0.5);
@@ -38,12 +37,11 @@ a{
     display: block;
     max-width: 100%;
 }
-.input{
-    border: 2px solid white;
+input{
+    border: .5px solid;
     background: rgba(188, 188, 188, 0.5);
     margin-bottom: .5em;
     padding: .5em;
-    width: auto;
     font-size: 1em;
     border: solid;
     border-width: .5px;
@@ -54,11 +52,9 @@ button{
     background: rgba(188, 188, 188, 0.5);
     font-size: 1em;
     border: .5px solid;
+    max-width: 100px;
+    min-height: 30px;
 }
-
-input::placeholder {
-}
-
 
 
 #AddAthlete{
@@ -84,31 +80,59 @@ li{
    font-size: 14pt;
 }
 
-ul{
-   column-count: 1;
-}
-
-.listItem{
-    margin-left: 3px;
-}
-.listButton{
-    margin: 5px;
-}
-
 #wrapper{
 
 }
 
-.AthleteList{
+#AthleteList{
+    padding: 0;
+   column-count: 1;
+}
+
+
+.AthleteListEntry{
     display: flex;
     border: .1px solid;
-    margin: 5px;
+    margin-top: 15px;
     justify-content: space-between;
+    height: auto;
 }
 
 .infoBox{
+    display: flex;
+    flex-direction: column;
 }
 
 .buttonsBox{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+.infoBoxItem{
+    margin: 15px;
+
+}
+.buttonsBoxItem{
+    margin: 5px;
+    max-height: 55px;
+}
+
+.updateBox{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 90%;
+}
+.updateMembers{
+    height: 65%;
+    width: 90%;
+    border: .5px solid;
+    background: rgba(188, 188, 188, 0.5);
+    margin-bottom: .5em;
+    padding: .5em;
+    font-size: 1em;
+    border: solid;
+    border-width: .5px;
 }

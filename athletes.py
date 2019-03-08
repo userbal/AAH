@@ -19,7 +19,7 @@ class AthleteDB:
 
     def createAthlete(self, firstname, lastname, phone ):
         sql = "INSERT INTO athletes (firstname, lastname, phone, creationDate, entries) VALUES (?,?,?,?,?)"
-        self.cursor.execute(sql, [firstname, lastname, phone, "\'now\'", 5])
+        self.cursor.execute(sql, [firstname, lastname, phone, 'CURRENT_TIMESTAMP', 0])
         self.connection.commit()
         return
 
@@ -43,8 +43,8 @@ class AthleteDB:
         self.connection.commit()
         return
 
-    def updateAthlete(self, id, firstname, lastname, phone):
-        sql = "UPDATE athletes SET firstname = ?, lastname = ?, phone, creationDate = ?, entries = ?  WHERE id = ?"
+    def updateAthlete(self, id, firstname, lastname, phone, creationDate, entries):
+        sql = "UPDATE athletes SET firstname = ?, lastname = ?, phone = ?, creationDate = ?, entries = ?  WHERE id = ?"
         self.cursor.execute(sql, [firstname, lastname, phone, creationDate, entries, id]) # data must be a list
         self.connection.commit()
         return
