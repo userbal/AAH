@@ -1,8 +1,8 @@
 ### Resource: 
-####Athletes
+Athletes
 
 ### Attributes: 
-#### ID, Firstname, Lastname, Phone, Creation Date, Entries
+ID, Firstname, Lastname, Phone, Creation Date, Entries
 
 ```sql
 CREATE TABLE athletes (
